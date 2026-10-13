@@ -49,4 +49,4 @@ If you get a new xlsx (same layout: `CourseNo`, `CourseName` in columns A–B), 
 python3 update_courses.py "new-file.xlsx"
 ```
 
-Any course whose name contains the word "Lab" or "Laboratory" goes in the lab list. PH5250 (Advanced Electronics & Lab) is the exception and stays a course; you can change this with `NOT_LABS` in the script. Commit and push afterwards.
+Any course whose name contains the word "Lab" or "Laboratory" goes in the lab list. PH5250 (Advanced Electronics & Lab) and PH5720 (Numerical Methods and Programming Lab) are exceptions and stay courses; you can change this with `NOT_LABS` in the script. PC0022, PC0022* and PH5500 are left out of the form; see `EXCLUDE` in the script. Commit and push afterwards.

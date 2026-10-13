@@ -3,7 +3,7 @@
 Usage: python3 update_courses.py "SlotWise_SubjectWise List__2026-10-12.xlsx"
 
 A course goes in the lab list if its name contains the word "Lab" or
-"Laboratory", except the codes in NOT_LABS.
+"Laboratory", except the codes in NOT_LABS. Codes in EXCLUDE are dropped.
 """
 import json
 import re
@@ -12,7 +12,8 @@ from pathlib import Path
 
 import openpyxl
 
-NOT_LABS = {"PH5250"}  # "Advanced Electronics & Lab" is offered as a course
+NOT_LABS = {"PH5250", "PH5720"}  # offered as theory courses despite "Lab" in the name
+EXCLUDE = {"PC0022", "PC0022*", "PH5500"}
 HTML = Path(__file__).with_name("index.html")
 
 ws = openpyxl.load_workbook(sys.argv[1], read_only=True).active
@@ -22,6 +23,8 @@ for code, name in ws.iter_rows(min_row=2, max_col=2, values_only=True):
     if not code:
         break
     entry = [str(code).strip(), " ".join(str(name).split())]
+    if entry[0] in EXCLUDE:
+        continue
     is_lab = re.search(r"\blab(oratory)?\b", entry[1], re.I) and entry[0] not in NOT_LABS
     (labs if is_lab else courses).append(entry)
 
